@@ -28,7 +28,7 @@
                         <td> {{ $item->description }} </td>
                         <td>
                             <div class="d-flex gap-2">
-                                <a href="admin-pertanyaan.html" class="btn btn-sm btn-info text-white">
+                                <a href="{{route('kuis.show', $item->id)}}" class="btn btn-sm btn-info text-white">
                                     <i class="bx bx-file"></i> Pertanyaan
                                 </a>
                                 <a href="{{route('kuis.edit', $item->id)}}" class="btn btn-sm btn-warning text-white">

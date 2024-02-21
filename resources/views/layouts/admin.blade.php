@@ -31,21 +31,27 @@
                         <a class="nav-link" href="{{route('kuis.index')}}">List Kuis</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin-list-pengguna.html">Pengguna</a>
+                        <a class="nav-link" href="{{route('pengguna.index')}}">Pengguna</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     <ul class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
                             aria-expanded="true">
-                            Muhammad Yunus
+                            {{Auth::user()->name}}
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-end border mt-3" data-bs-popper="static">
                             <li>
-                                <a href="#" class="dropdown-item">
-                                    Logout
-                                </a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                             </li>
                         </ul>
                     </ul>

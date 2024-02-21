@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{url('assets/images/logo.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url('assets/images/logo.png') }}" type="image/x-icon">
     <title>Quizz Mencerdaskan Bangsa</title>
 
     @include('components.style')
@@ -12,9 +12,19 @@
 
 <body class="bg-soft-blue">
     <div class="container py-5">
+        <a class="dropdown-item" href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+            {{ __('Logout') }}
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+        
         <nav class="d-flex justify-content-center">
-            <a href="." class="logo">
-                <img src="{{url('assets/images/logo.png')}}" alt="Logo">
+            <a href="/" class="logo">
+                <img src="{{ url('assets/images/logo.png') }}" alt="Logo">
                 <h4 class="text-dark fw-bold">Quizz</h4>
             </a>
         </nav>
@@ -23,7 +33,7 @@
             <div class="col-md-8">
 
                 @yield('content')
-                
+
             </div>
         </div>
     </div>

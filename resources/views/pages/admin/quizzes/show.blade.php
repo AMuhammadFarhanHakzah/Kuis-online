@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="d-flex align-items-center justify-content-between mb-5">
-    <h4 class="text-dark">Pertanyaan Kuis</h4>
+    <h4 class="text-dark">Pertanyaan Kuis {{$quiz->quiz_name}} </h4>
     <button type="button" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">
         <i class="bx bx-plus"></i> Tambah Pertanyaan
     </button>
@@ -43,10 +43,14 @@
                             </ol>
                         </td>
                         <td>
-                            <div class="#">
-                                <button class="btn btn-sm btn-light">
-                                    <i class="bx bx-trash"></i> Hapus
-                                </button>
+                            <div class="d-flex gap-2">
+                                <form action="{{route('pertanyaan.destroy', $question->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-light" type="Submit" onclick="return confirm('Anda yakin ingin menghapus pertanyaan ini?')">
+                                        <i class="bx bx-trash"></i> Hapus
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -65,8 +69,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" method="post">
+                <form action="{{route('pertanyaan.store')}}" method="POST">
+                    @csrf
                     <div class="row">
+                        <input type="hidden" name="quiz_id" value="{{$quiz->id}}">
                         <div class="col-12 mb-3">
                             <label for="question">Pertanyaan</label>
                             <input type="text" name="question" id="question" class="form-control" required>

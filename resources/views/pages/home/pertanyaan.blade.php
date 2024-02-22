@@ -13,11 +13,12 @@
         <div class="card-body">
             <h5 class="text-dark mb-5"> {{$question->question}} </h5>
 
-            <form action="{{route('kuis.pertanyaan.store', [$question->quiz->id, $question->second()->id])}}" method="POST">
+            <form action="{{route('kuis.pertanyaan.store', [$quiz_id, $question])}}" method="POST">
+                @csrf
                 <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input border-secondary" type="radio" name="answer"
-                            id="answer_a" value="A">
+                            id="answer_a" value="a">
                         <label class="form-check-label" for="answer_a">
                             {{$question->answer_a}}
                         </label>
@@ -26,7 +27,7 @@
                 <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input border-secondary" type="radio" name="answer"
-                            id="answer_b" value="B">
+                            id="answer_b" value="b">
                         <label class="form-check-label" for="answer_b">
                             {{$question->answer_b}}
                         </label>
@@ -35,7 +36,7 @@
                 <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input border-secondary" type="radio" name="answer"
-                            id="answer_c" value="C">
+                            id="answer_c" value="c">
                         <label class="form-check-label" for="answer_c">
                             {{$question->answer_c}}
                         </label>
@@ -44,7 +45,7 @@
                 <div class="mb-5">
                     <div class="form-check">
                         <input class="form-check-input border-secondary" type="radio" name="answer"
-                            id="answer_d" value="D">
+                            id="answer_d" value="d">
                         <label class="form-check-label" for="answer_d">
                             {{$question->answer_d}}
                         </label>

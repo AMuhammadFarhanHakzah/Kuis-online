@@ -6,6 +6,7 @@ use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -46,12 +47,42 @@ class HomeController extends Controller
         return view('pages.home.pertanyaan', compact('quiz_id', 'question'));
     }
 
-    public function question_store($quiz_id, $question_id, Request $request) 
+    public function question_store(Request $request, $quiz_id, $question_id) 
     {
-        $data = $request->all();
-        
-        $user = Question::where();
+        $question = Question::find($question_id);
 
-        Answer::create($data);
+        Answer::create([
+            'user_id' => Auth::user()->id,
+            'question_id' => $question->id,
+            'answer' => $request->answer,
+            'is_correct' => $question->correct == $request->answer ? 'yes' : 'no'
+        ]);
+
+        $next_question = Question::where('quiz_id', $quiz_id)->where('id', '>', $question_id)->orderBy('id', 'asc')->first();
+
+        if($next_question){
+
+            return redirect()->route('kuis.pertanyaan', ['quiz_id' => $quiz_id, 'question_id' => $next_question->id]);
+
+        }else {
+            return redirect()->route('kuis.berhasil', ['quiz_id' => $quiz_id]);
+        }
+    }
+
+    public function success($id)
+    {
+        $quiz = Quiz::find($id);
+        $user_id = Auth::user()->id;
+
+        $answer = Answer::where('user_id', $user_id)->whereHas('question', function($query) use ($id) {
+            $query->where('quiz_id', $id);
+        })->get();
+
+        $score = $answer->filter(function($answer) {
+            return $answer->is_correct == 'yes';
+        })->count();
+
+        return view('pages.home.berhasil', compact('quiz', 'score'));
+
     }
 }
